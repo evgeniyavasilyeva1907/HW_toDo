@@ -1,15 +1,23 @@
 import React, { useState } from 'react';
 import './App.css';
 import "bootstrap/dist/css/bootstrap.css";
+import ToDo from './components/ToDo';
+import ToDoList from './components/ToDoList';
 
 function App() {
-  const [todos, setTodos] = useState([{ text: "первое задание", done: false }, { text: "второе задание", done: false }]);
+
+  const [todos, setTodos] = useState([]);
   const [value, setValue] = useState("");
+
+  const changeValue = (e) => {
+    setValue(e.target.value)
+  }
 
   const addTodo = () => {
 
     if (value) {
-      let arr = [...todos, { text: value, done: false }];
+      let todo = new ToDo(value)
+      let arr = [...todos, todo];
       console.log(arr)
       setTodos(arr)
       setValue("")
@@ -26,33 +34,24 @@ function App() {
     let arr = [...todos];
     arr.splice(index, 1);
     setTodos(arr);
-    setValue("")
-  }
+    setValue("");
+  };
+
+
 
   return (
     <div className="App">
       <h2>ToDo List</h2>
 
       <div className="input-group mb-3">
-        <input type="text" className="form-control" placeholder="Enter new todo" value={value} onChange={e => setValue(e.target.value)} />
+        <input type="text" className="form-control" placeholder="Enter new todo" value={value} onChange={changeValue.bind(this)} />
         <div className="input-group-append">
           <button className="btn  btn-danger" type="button" onClick={addTodo}>Add</button>
         </div>
       </div>
-      { (todos.length!==0) && <div>There are (is) {todos.length} todo(s)</div>}
+      {(todos.length !== 0) && <div>There are (is) {todos.length} todo(s)</div>}
+      <ToDoList todos={todos} complete={complete} deleteTodo ={deleteTodo}/>
       
-      <div className="list ">
-        {todos.map((todo, index) => {
-          return (
-            <div className="listrow border">
-              <div key={index} index={index} style={{ color: todo.done ? "green" : "red" }} className="elem">{todo.text}</div>
-              <div className="elem" key={`complete-${index}`}><button className="btn btn-danger" onClick={() => { complete(index) }} >Complete/Todo</button></div>
-              <div className="elem" key={`delete-${index}`}><button className="btn btn-danger" onClick={() => { deleteTodo(index) }} >Deleted</button></div>
-            </div>
-          )
-
-        })}
-      </div>
 
 
     </div>

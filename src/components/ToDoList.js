@@ -7,7 +7,7 @@ function ToDoList(props) {
 
             {props.todos.map((todo, index) => {
                 return (
-                    <ToDoRow complete={props.complete} deleteToDo={props.deleteToDo} todo={todo} index={index} key={index} />
+                    <ToDoRow complete={props.complete} deleteToDo={props.deleteTodo} todo={todo} index={index} key={index} showModal={props.showModal} />
                 )
 
             })}
